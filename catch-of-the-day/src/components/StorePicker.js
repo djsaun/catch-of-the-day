@@ -22,7 +22,8 @@ class StorePicker extends React.Component {
 
     // Second, transition from / to /store/:storeId
     // BrowserRouter is the parent of everything in our app, so it's possible to surface React Router at any component down through it
-    // Make router available to component through context - allows you to declare something at a top level and make it available to anything at a lower level
+    // Make router available to component through context - allows you to declare something at a top level and make it available to anything at a lower level (this is done down below)
+    // transitionTo is a method on context
     this.context.router.transitionTo(`/store/${storeId}`);
   }
 
