@@ -6,7 +6,8 @@ class Inventory extends React.Component {
     return (
       <div>
         <h2>Inventory</h2>
-        <AddFishForm />
+        {/* Pass addFish function to AddFishForm via props -- makes function available on AddFishForm */}
+        <AddFishForm addFish={this.props.addFish} />
       </div>
     )
   }
