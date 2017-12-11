@@ -13,6 +13,7 @@ class App extends React.Component {
     // Bind addFish method to App
     this.addFish = this.addFish.bind(this);
     this.loadSamples = this.loadSamples.bind(this);
+    this.addToOrder = this.addToOrder.bind(this);
 
     // Initial application state
     this.state = {
@@ -40,6 +41,18 @@ class App extends React.Component {
     });
   }
 
+  addToOrder(key) {
+    // take a copy of our state
+    const order = {...this.state.order};
+
+    // update or add the new number of fish ordered
+    // If fish exists in order, add 1, otherwise, set order to 1
+    order[key] = order[key] + 1 || 1;
+    
+    // Update state
+    this.setState({order});
+  }
+
   render() {
     return (
       <div className="catch-of-the-day">
@@ -51,7 +64,8 @@ class App extends React.Component {
               Object.keys(this.state.fishes)
               // Set unique key on component
               // Pass all data about the fish to the fish (name, image, desc, price, status)
-              .map(key => <Fish key={key} details={this.state.fishes[key]} />)
+              // 'key' isn't passed down to the component. Assign the key value to another props variable if you need to access the key value.
+              .map(key => <Fish key={key} index={key} details={this.state.fishes[key]} addToOrder={this.addToOrder} />)
             }
           </ul>
         </div>

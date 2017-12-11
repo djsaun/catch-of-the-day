@@ -4,7 +4,7 @@ import { formatPrice } from '../helpers';
 class Fish extends React.Component {
   render() {
     // Store `this.props.details` in variable since it'll be used multiple times
-    const { details } = this.props; 
+    const { details, index } = this.props; 
 
     const isAvailable = details.status === 'available';
     const buttonText = isAvailable ? 'Add To Order' : 'Sold Out!';
@@ -19,7 +19,9 @@ class Fish extends React.Component {
           <span className="price">{formatPrice(details.price)}</span>
         </h3>
         <p>{details.desc}</p>
-        <button disabled={!isAvailable}>{buttonText}</button>
+        {/* Use arrow function to pass argument to inline function */}
+        {/* Keys cannot be accessed inside of a component. To access your key, it needs to explicitly be passed down */}
+        <button onClick={() => this.props.addToOrder(index)} disabled={!isAvailable}>{buttonText}</button>
       </li>
     )
   }
