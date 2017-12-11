@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 import Order from './Order';
 import Inventory from './Inventory';
+import sampleFishes from '../sample-fishes.js';
 
 class App extends React.Component {
   // Place state on parent component so that it can be passed down to child components
@@ -10,6 +11,7 @@ class App extends React.Component {
 
     // Bind addFish method to App
     this.addFish = this.addFish.bind(this);
+    this.loadSamples = this.loadSamples.bind(this);
 
     // Initial application state
     this.state = {
@@ -31,6 +33,12 @@ class App extends React.Component {
     this.setState({ fishes });
   }
 
+  loadSamples() {
+    this.setState({
+      fishes: sampleFishes
+    });
+  }
+
   render() {
     return (
       <div className="catch-of-the-day">
@@ -39,7 +47,7 @@ class App extends React.Component {
         </div>
         <Order />
         {/* Pass addFish method to Inventory component */}
-        <Inventory addFish={this.addFish} />
+        <Inventory addFish={this.addFish} loadSamples={this.loadSamples} />
       </div>  
     )
   }
