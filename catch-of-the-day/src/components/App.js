@@ -69,7 +69,8 @@ class App extends React.Component {
             }
           </ul>
         </div>
-        <Order />
+        {/* Best practice is to individually pass down state components rather than the entirety of the state itself */}
+        <Order fishes={this.state.fishes} order={this.state.order} />
         {/* Pass addFish method to Inventory component */}
         <Inventory addFish={this.addFish} loadSamples={this.loadSamples} />
       </div>  
