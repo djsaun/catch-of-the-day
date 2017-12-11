@@ -6,6 +6,9 @@ class Fish extends React.Component {
     // Store `this.props.details` in variable since it'll be used multiple times
     const { details } = this.props; 
 
+    const isAvailable = details.status === 'available';
+    const buttonText = isAvailable ? 'Add To Order' : 'Sold Out!';
+
     return (
       <li className="menu-fish">
         {/* props are stored in details (see App.js) so access individual properities from this.props.details */}
@@ -16,7 +19,7 @@ class Fish extends React.Component {
           <span className="price">{formatPrice(details.price)}</span>
         </h3>
         <p>{details.desc}</p>
-        <button>Add To Order</button>
+        <button disabled={!isAvailable}>{buttonText}</button>
       </li>
     )
   }
