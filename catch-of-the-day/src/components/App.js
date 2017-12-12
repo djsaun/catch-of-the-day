@@ -3,7 +3,8 @@ import Header from './Header';
 import Order from './Order';
 import Inventory from './Inventory';
 import Fish from './Fish';
-import sampleFishes from '../sample-fishes.js';
+import sampleFishes from '../sample-fishes';
+import base from '../base';
 
 class App extends React.Component {
   // Place state on parent component so that it can be passed down to child components
@@ -20,6 +21,24 @@ class App extends React.Component {
       fishes: {},
       order: {}
     };
+  }
+
+  // componentWillMount (comes from React) allows us to hook into the second right before the component is rendered and allow us to sync our component state wth our firebase state
+  componentWillMount() {
+    // First argument is the string that points to the piece of Firebase that you'd like to sync with -- storeId comes from the browserRouter
+    // /fishes lets us sync just the fishes state in the database
+    // Second argument is the context
+    // Third argument is specific state we want to sync
+    this.ref = base.syncState(`${this.props.params.storeId}/fishes`,
+    {
+      context: this,
+      state: 'fishes'
+    })
+  }
+
+  // If switching from one store to another store, we need to stop syncing previous store 
+  componentWillUnmount() {
+    base.removeBinding(this.ref);
   }
 
   addFish(fish) {
@@ -52,6 +71,7 @@ class App extends React.Component {
     // Update state
     this.setState({order});
   }
+  
 
   render() {
     return (
