@@ -29,16 +29,36 @@ class App extends React.Component {
     // /fishes lets us sync just the fishes state in the database
     // Second argument is the context
     // Third argument is specific state we want to sync
+    // This runs right before <App /> is rendered
     this.ref = base.syncState(`${this.props.params.storeId}/fishes`,
     {
       context: this,
       state: 'fishes'
     })
+
+    // Check if order state is in localstorage and set state on page refresh
+    const localStorageRef = localStorage.getItem(`order-${this.props.params.storeId}`);
+    if (localStorageRef) {
+      // update our App component's order state
+      this.setState({
+        // turn string back into object
+        order: JSON.parse(localStorageRef)
+      });
+    }
   }
 
   // If switching from one store to another store, we need to stop syncing previous store 
   componentWillUnmount() {
     base.removeBinding(this.ref);
+  }
+
+  // Hook into when data actually changes using componentWillUpdate - runs whenever props or state changes
+  // Pass in updated props and updated state
+  componentWillUpdate(nextProps, nextState) {
+    // Set localstorage
+    // Had to pass params down to Order component within App
+    // Cannot store an object within localStorage - must convert it to JSON
+    localStorage.setItem(`order-${this.props.params.storeId}`, JSON.stringify(nextState.order));
   }
 
   addFish(fish) {
@@ -90,7 +110,7 @@ class App extends React.Component {
           </ul>
         </div>
         {/* Best practice is to individually pass down state components rather than the entirety of the state itself */}
-        <Order fishes={this.state.fishes} order={this.state.order} />
+        <Order fishes={this.state.fishes} order={this.state.order} params={this.props.params} />
         {/* Pass addFish method to Inventory component */}
         <Inventory addFish={this.addFish} loadSamples={this.loadSamples} />
       </div>  
