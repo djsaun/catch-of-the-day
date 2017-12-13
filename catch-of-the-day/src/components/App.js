@@ -17,6 +17,7 @@ class App extends React.Component {
     this.removeFish = this.removeFish.bind(this);
     this.loadSamples = this.loadSamples.bind(this);
     this.addToOrder = this.addToOrder.bind(this);
+    this.removeFromOrder = this.removeFromOrder.bind(this);
 
     // Initial application state
     this.state = {
@@ -107,6 +108,12 @@ class App extends React.Component {
     this.setState({order});
   }
   
+  removeFromOrder(key) {
+    const order = {...this.state.order};
+    // Can use 'delete' because data is stored in localStorage and not in firebase
+    delete order[key];
+    this.setState({order});
+  }
 
   render() {
     return (
@@ -125,7 +132,7 @@ class App extends React.Component {
           </ul>
         </div>
         {/* Best practice is to individually pass down state components rather than the entirety of the state itself */}
-        <Order fishes={this.state.fishes} order={this.state.order} params={this.props.params} />
+        <Order fishes={this.state.fishes} order={this.state.order} params={this.props.params} removeFromOrder={this.removeFromOrder} />
         {/* Pass addFish method to Inventory component */}
         <Inventory addFish={this.addFish} loadSamples={this.loadSamples} fishes={this.state.fishes} updateFish={this.updateFish} removeFish={this.removeFish} />
       </div>  
