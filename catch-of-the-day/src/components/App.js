@@ -14,6 +14,7 @@ class App extends React.Component {
     // Bind addFish method to App
     this.addFish = this.addFish.bind(this);
     this.updateFish = this.updateFish.bind(this);
+    this.removeFish = this.removeFish.bind(this);
     this.loadSamples = this.loadSamples.bind(this);
     this.addToOrder = this.addToOrder.bind(this);
 
@@ -87,6 +88,13 @@ class App extends React.Component {
     this.setState({ fishes });
   }
 
+  removeFish(key) {
+    const fishes = {...this.state.fishes};
+    // Remove fish -- need to set specific fish to null due to firebase constraints. Otherwise, 'delete fishes[key];' should work.
+    fishes[key] = null;
+    this.setState({ fishes })
+  }
+
   addToOrder(key) {
     // take a copy of our state
     const order = {...this.state.order};
@@ -119,7 +127,7 @@ class App extends React.Component {
         {/* Best practice is to individually pass down state components rather than the entirety of the state itself */}
         <Order fishes={this.state.fishes} order={this.state.order} params={this.props.params} />
         {/* Pass addFish method to Inventory component */}
-        <Inventory addFish={this.addFish} loadSamples={this.loadSamples} fishes={this.state.fishes} updateFish={this.updateFish} />
+        <Inventory addFish={this.addFish} loadSamples={this.loadSamples} fishes={this.state.fishes} updateFish={this.updateFish} removeFish={this.removeFish} />
       </div>  
     )
   }
