@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatPrice } from '../helpers';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Order extends React.Component {
   // Need constructor function in order to bind 'this' to the component
@@ -50,13 +51,21 @@ class Order extends React.Component {
     return (
       <div className="order-wrap">
         <h2>Your Order</h2>
-        <ul className="order">
+        {/* Replace <ul> with <CSSTransitionGroup> to make a React animation component, but assign component param of "ul" so that it maintains the unordered list HTML structure */}
+        {/* transition params allows React to assign classes to children elements on enter and leave, which we can style */}
+        <CSSTransitionGroup 
+          className="order" 
+          component="ul" 
+          transitionName="order"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
           {orderIds.map(this.renderOrder)}
           <li className="total">
             <strong>Total:</strong>
             {formatPrice(total)}
           </li>
-        </ul>
+        </CSSTransitionGroup>
       </div>
     )
   }
