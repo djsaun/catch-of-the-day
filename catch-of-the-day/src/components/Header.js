@@ -19,4 +19,9 @@ const Header = (props) => {
   )
 }
 
+// Proptypes allow us to validate the data that is coming in to the component
+Header.propTypes = {
+  tagline: React.PropTypes.string.isRequired
+}
+
 export default Header;
